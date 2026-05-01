@@ -1,0 +1,883 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Click Bite</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<div id="app">
+
+  <!-- ============================================================ -->
+  <!-- SCREEN: SPLASH                                               -->
+  <!-- ============================================================ -->
+  <div id="screen-splash" class="screen">
+    <div class="splash-logo">
+      <div class="splash-hexagon">
+        <svg viewBox="0 0 220 220" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <polygon points="110,10 200,57.5 200,162.5 110,210 20,162.5 20,57.5"
+            fill="none" stroke="#1E3A5F" stroke-width="3"/>
+        </svg>
+        <div class="splash-text">
+          <div class="splash-icon">🍔🍟</div>
+          <div class="splash-brand">CLICK<br>BITE</div>
+          <div class="splash-tagline">Cravings Called. We Answered</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SCREEN: AUTH CHOICE                                          -->
+  <!-- ============================================================ -->
+  <div id="screen-auth" class="screen">
+    <div class="auth-logo-area">
+      <div style="background:var(--yellow);border-radius:24px;padding:30px 40px;text-align:center;">
+        <div style="font-size:48px;margin-bottom:8px;">🍔🍟</div>
+        <div style="font-family:var(--font-head);font-size:36px;color:var(--navy);">CLICK BITE</div>
+        <div style="font-size:11px;font-weight:700;letter-spacing:3px;color:var(--navy);margin-top:4px;">CRAVINGS CALLED. WE ANSWERED</div>
+      </div>
+    </div>
+    <div class="auth-buttons">
+      <button id="btn-login" class="btn-primary" onclick="showScreen('login')">Log in</button>
+      <button id="btn-signup" class="btn-secondary" onclick="showScreen('signup')">Sign up</button>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SCREEN: LOGIN                                                -->
+  <!-- ============================================================ -->
+  <div id="screen-login" class="screen">
+    <div class="form-header">
+      <h1>Log In</h1>
+    </div>
+    <div class="role-chips">
+      <button class="role-chip" data-role="student" onclick="selectRole(this)">Student</button>
+      <button class="role-chip" data-role="employee" onclick="selectRole(this)">Employee</button>
+      <button class="role-chip" data-role="staff" onclick="selectRole(this)">Canteen Staff</button>
+    </div>
+    <div class="form-fields">
+      <input id="login-username" class="field-input" type="text" placeholder="USERNAME:" />
+      <input id="login-id" class="field-input" type="text" placeholder="ID NUMBER:" />
+      <p id="login-error" class="error-msg"></p>
+    </div>
+    <div class="form-nav">
+      <button id="btn-login-back" class="btn-ghost" onclick="showScreen('auth')">&lt;&lt; Back</button>
+      <button id="btn-login-done" class="btn-dark" onclick="handleLogin()">Done</button>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SCREEN: SIGNUP                                               -->
+  <!-- ============================================================ -->
+  <div id="screen-signup" class="screen">
+    <div class="form-header">
+      <h1>Sign Up</h1>
+    </div>
+    <div class="role-chips">
+      <button class="role-chip" data-role="student" onclick="selectRole(this)">Student</button>
+      <button class="role-chip" data-role="employee" onclick="selectRole(this)">Employee</button>
+      <button class="role-chip" data-role="staff" onclick="selectRole(this)">Canteen Staff</button>
+    </div>
+    <div class="form-fields">
+      <input id="signup-fullname" class="field-input" type="text" placeholder="Fullname...." />
+      <input id="signup-username" class="field-input" type="text" placeholder="Username...." />
+      <input id="signup-id" class="field-input" type="text" placeholder="ID number...." />
+      <p id="signup-error" class="error-msg"></p>
+    </div>
+    <div class="form-nav">
+      <button id="btn-signup-back" class="btn-ghost" onclick="showScreen('auth')">&lt;&lt; Back</button>
+      <button id="btn-signup-done" class="btn-dark" onclick="handleSignup()">Done</button>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SCREEN: ORDER TYPE                                           -->
+  <!-- ============================================================ -->
+  <div id="screen-order-type" class="screen">
+    <div class="page-header"><h1>Click Bite Menu</h1></div>
+    <div class="content">
+      <div class="order-type-row">
+        <button class="order-type-btn" data-type="dine-in" onclick="selectOrderType('dine-in')">DINE-IN</button>
+        <button class="order-type-btn" data-type="take-out" onclick="selectOrderType('take-out')">TAKE-OUT</button>
+      </div>
+      <div style="display:flex;justify-content:center;">
+        <button class="order-type-center" data-type="pick-up" onclick="selectOrderType('pick-up')">PICK-UP</button>
+      </div>
+    </div>
+    <div style="padding: 0 24px 36px;">
+      <button id="btn-ordertype-back" class="btn-ghost" style="width:100%;" onclick="showScreen('auth')">&lt;&lt; Back</button>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SCREEN: CATEGORY                                             -->
+  <!-- ============================================================ -->
+  <div id="screen-category" class="screen">
+    <div class="page-header"><h1>Click Bite Menu</h1></div>
+    <div class="content">
+      <div class="category-grid">
+        <button class="category-btn" data-cat="rice" onclick="selectCategory('rice')">RICE MEAL</button>
+        <button class="category-btn" data-cat="drinks" onclick="selectCategory('drinks')">DRINKS</button>
+        <button class="category-btn" data-cat="snacks" onclick="selectCategory('snacks')">SNACKS</button>
+        <button class="category-btn" data-cat="desserts" onclick="selectCategory('desserts')">DESSERTS</button>
+      </div>
+    </div>
+    <div style="padding: 0 24px 36px;">
+      <button id="btn-category-back" class="btn-ghost" style="width:100%;" onclick="showScreen('order-type')">&lt;&lt; Back</button>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SCREEN: MENU                                                 -->
+  <!-- ============================================================ -->
+  <div id="screen-menu" class="screen">
+    <!-- Status bar spacer handled by sidebar padding -->
+    <div class="menu-sidebar">
+      <div class="sidebar-logo">Click<br>Bite<br>Menu</div>
+      <button class="sidebar-item active" data-cat="rice" onclick="showCategory('rice')">RICE MEAL</button>
+      <button class="sidebar-item" data-cat="drinks" onclick="showCategory('drinks')">DRINKS</button>
+      <button class="sidebar-item" data-cat="snacks" onclick="showCategory('snacks')">SNACKS</button>
+      <button class="sidebar-item" data-cat="desserts" onclick="showCategory('desserts')">DESSERTS</button>
+    </div>
+    <div class="menu-main">
+      <div id="menu-cat-title" class="menu-category-title">RICE MEAL</div>
+      <div id="menu-items-list" class="menu-items-scroll">
+        <!-- Rice Meal Items -->
+        <div class="menu-category" data-category="rice">
+          <div class="menu-item" data-id="r1" data-name="Adobong Manok" data-price="50">
+            <div class="menu-item-image">
+              <img src="image/rice-meal/Adobong Manok - 50.jpeg" alt="Adobong Manok" />
+            </div>
+            <div class="menu-item-name">Adobong Manok</div>
+            <div class="menu-item-price">₱50</div>
+            <div class="qty-control">
+              <button class="qty-btn minus" onclick="changeQty('r1', -1)">−</button>
+              <span class="qty-num" id="qty-r1">0</span>
+              <button class="qty-btn plus" onclick="changeQty('r1', 1)">+</button>
+            </div>
+          </div>
+          <div class="menu-item" data-id="r2" data-name="Chicken Pastil" data-price="30">
+            <div class="menu-item-image">
+              <img src="image/rice-meal/Chicken Pastil - 30.jpg" alt="Chicken Pastil" />
+            </div>
+            <div class="menu-item-name">Chicken Pastil</div>
+            <div class="menu-item-price">₱30</div>
+            <div class="qty-control">
+              <button class="qty-btn minus" onclick="changeQty('r2', -1)">−</button>
+              <span class="qty-num" id="qty-r2">0</span>
+              <button class="qty-btn plus" onclick="changeQty('r2', 1)">+</button>
+            </div>
+          </div>
+          <div class="menu-item" data-id="r3" data-name="Chop suey" data-price="50">
+            <div class="menu-item-image">
+              <img src="image/rice-meal/Chop suey - 50.jpeg" alt="Chop suey" />
+            </div>
+            <div class="menu-item-name">Chop suey</div>
+            <div class="menu-item-price">₱50</div>
+            <div class="qty-control">
+              <button class="qty-btn minus" onclick="changeQty('r3', -1)">−</button>
+              <span class="qty-num" id="qty-r3">0</span>
+              <button class="qty-btn plus" onclick="changeQty('r3', 1)">+</button>
+            </div>
+          </div>
+          <div class="menu-item" data-id="r4" data-name="Fish Fillet" data-price="50">
+            <div class="menu-item-image">
+              <img src="image/rice-meal/Fish Fillet - 50.jpeg" alt="Fish Fillet" />
+            </div>
+            <div class="menu-item-name">Fish Fillet</div>
+            <div class="menu-item-price">₱50</div>
+            <div class="qty-control">
+              <button class="qty-btn minus" onclick="changeQty('r4', -1)">−</button>
+              <span class="qty-num" id="qty-r4">0</span>
+              <button class="qty-btn plus" onclick="changeQty('r4', 1)">+</button>
+            </div>
+          </div>
+          <div class="menu-item" data-id="r5" data-name="Free Soup" data-price="0">
+            <div class="menu-item-image">
+              <img src="image/rice-meal/Free Soup - 0.jpeg" alt="Free Soup" />
+            </div>
+            <div class="menu-item-name">Free Soup</div>
+            <div class="menu-item-price">₱0</div>
+            <div class="qty-control">
+              <button class="qty-btn minus" onclick="changeQty('r5', -1)">−</button>
+              <span class="qty-num" id="qty-r5">0</span>
+              <button class="qty-btn plus" onclick="changeQty('r5', 1)">+</button>
+            </div>
+          </div>
+          <div class="menu-item" data-id="r6" data-name="Kare-Kare" data-price="50">
+            <div class="menu-item-image">
+              <img src="image/rice-meal/Kare-Kare - 50.jpeg" alt="Kare-Kare" />
+            </div>
+            <div class="menu-item-name">Kare-Kare</div>
+            <div class="menu-item-price">₱50</div>
+            <div class="qty-control">
+              <button class="qty-btn minus" onclick="changeQty('r6', -1)">−</button>
+              <span class="qty-num" id="qty-r6">0</span>
+              <button class="qty-btn plus" onclick="changeQty('r6', 1)">+</button>
+            </div>
+          </div>
+          <div class="menu-item" data-id="r7" data-name="Longsilog" data-price="50">
+            <div class="menu-item-image">
+              <img src="image/rice-meal/Longsilog - 50.jpg" alt="Longsilog" />
+            </div>
+            <div class="menu-item-name">Longsilog</div>
+            <div class="menu-item-price">₱50</div>
+            <div class="qty-control">
+              <button class="qty-btn minus" onclick="changeQty('r7', -1)">−</button>
+              <span class="qty-num" id="qty-r7">0</span>
+              <button class="qty-btn plus" onclick="changeQty('r7', 1)">+</button>
+            </div>
+          </div>
+          <div class="menu-item" data-id="r8" data-name="Menudo" data-price="50">
+            <div class="menu-item-image">
+              <img src="image/rice-meal/Menudo - 50.jpeg" alt="Menudo" />
+            </div>
+            <div class="menu-item-name">Menudo</div>
+            <div class="menu-item-price">₱50</div>
+            <div class="qty-control">
+              <button class="qty-btn minus" onclick="changeQty('r8', -1)">−</button>
+              <span class="qty-num" id="qty-r8">0</span>
+              <button class="qty-btn plus" onclick="changeQty('r8', 1)">+</button>
+            </div>
+          </div>
+          <div class="menu-item" data-id="r9" data-name="Rice" data-price="15">
+            <div class="menu-item-image">
+              <img src="image/rice-meal/Rice - 15.jpeg" alt="Rice" />
+            </div>
+            <div class="menu-item-name">Rice</div>
+            <div class="menu-item-price">₱15</div>
+            <div class="qty-control">
+              <button class="qty-btn minus" onclick="changeQty('r9', -1)">−</button>
+              <span class="qty-num" id="qty-r9">0</span>
+              <button class="qty-btn plus" onclick="changeQty('r9', 1)">+</button>
+            </div>
+          </div>
+          <div class="menu-item" data-id="r10" data-name="Sisig" data-price="50">
+            <div class="menu-item-image">
+              <img src="image/rice-meal/Sisig - 50.jpg" alt="Sisig" />
+            </div>
+            <div class="menu-item-name">Sisig</div>
+            <div class="menu-item-price">₱50</div>
+            <div class="qty-control">
+              <button class="qty-btn minus" onclick="changeQty('r10', -1)">−</button>
+              <span class="qty-num" id="qty-r10">0</span>
+              <button class="qty-btn plus" onclick="changeQty('r10', 1)">+</button>
+            </div>
+          </div>
+          <div class="menu-item" data-id="r11" data-name="Tortang talong" data-price="50">
+            <div class="menu-item-image">
+              <img src="image/rice-meal/Tortang talong - 50.jpeg" alt="Tortang talong" />
+            </div>
+            <div class="menu-item-name">Tortang talong</div>
+            <div class="menu-item-price">₱50</div>
+            <div class="qty-control">
+              <button class="qty-btn minus" onclick="changeQty('r11', -1)">−</button>
+              <span class="qty-num" id="qty-r11">0</span>
+              <button class="qty-btn plus" onclick="changeQty('r11', 1)">+</button>
+            </div>
+          </div>
+          <div class="menu-item" data-id="r12" data-name="Tosilog" data-price="50">
+            <div class="menu-item-image">
+              <img src="image/rice-meal/Tosilog - 50.jpg" alt="Tosilog" />
+            </div>
+            <div class="menu-item-name">Tosilog</div>
+            <div class="menu-item-price">₱50</div>
+            <div class="qty-control">
+              <button class="qty-btn minus" onclick="changeQty('r12', -1)">−</button>
+              <span class="qty-num" id="qty-r12">0</span>
+              <button class="qty-btn plus" onclick="changeQty('r12', 1)">+</button>
+            </div>
+          </div>
+        </div>
+        <!-- Drinks Items -->
+        <div class="menu-category" data-category="drinks" style="display:none;">
+          <div class="menu-item" data-id="d1" data-name="Buko Juice" data-price="20">
+            <div class="menu-item-image">
+              <img src="image/drinks/Buko Juice - 20.jpg" alt="Buko Juice" />
+            </div>
+            <div class="menu-item-name">Buko Juice</div>
+            <div class="menu-item-price">₱20</div>
+            <div class="qty-control">
+              <button class="qty-btn minus" onclick="changeQty('d1', -1)">−</button>
+              <span class="qty-num" id="qty-d1">0</span>
+              <button class="qty-btn plus" onclick="changeQty('d1', 1)">+</button>
+            </div>
+          </div>
+          <div class="menu-item" data-id="d2" data-name="Calamansi Juice" data-price="20">
+            <div class="menu-item-image">
+              <img src="image/drinks/Calamansi Juice - 20.jpg" alt="Calamansi Juice" />
+            </div>
+            <div class="menu-item-name">Calamansi Juice</div>
+            <div class="menu-item-price">₱20</div>
+            <div class="qty-control">
+              <button class="qty-btn minus" onclick="changeQty('d2', -1)">−</button>
+              <span class="qty-num" id="qty-d2">0</span>
+              <button class="qty-btn plus" onclick="changeQty('d2', 1)">+</button>
+            </div>
+          </div>
+          <div class="menu-item" data-id="d3" data-name="Gulaman" data-price="20">
+            <div class="menu-item-image">
+              <img src="image/drinks/Gulaman - 20.jpeg" alt="Gulaman" />
+            </div>
+            <div class="menu-item-name">Gulaman</div>
+            <div class="menu-item-price">₱20</div>
+            <div class="qty-control">
+              <button class="qty-btn minus" onclick="changeQty('d3', -1)">−</button>
+              <span class="qty-num" id="qty-d3">0</span>
+              <button class="qty-btn plus" onclick="changeQty('d3', 1)">+</button>
+            </div>
+          </div>
+          <div class="menu-item" data-id="d4" data-name="Iced Coffee" data-price="20">
+            <div class="menu-item-image">
+              <img src="image/drinks/Iced Coffee - 20.jpg" alt="Iced Coffee" />
+            </div>
+            <div class="menu-item-name">Iced Coffee</div>
+            <div class="menu-item-price">₱20</div>
+            <div class="qty-control">
+              <button class="qty-btn minus" onclick="changeQty('d4', -1)">−</button>
+              <span class="qty-num" id="qty-d4">0</span>
+              <button class="qty-btn plus" onclick="changeQty('d4', 1)">+</button>
+            </div>
+          </div>
+          <div class="menu-item" data-id="d5" data-name="Milk Tea" data-price="30">
+            <div class="menu-item-image">
+              <img src="image/drinks/Milk Tea - 30.jpeg" alt="Milk Tea" />
+            </div>
+            <div class="menu-item-name">Milk Tea</div>
+            <div class="menu-item-price">₱30</div>
+            <div class="qty-control">
+              <button class="qty-btn minus" onclick="changeQty('d5', -1)">−</button>
+              <span class="qty-num" id="qty-d5">0</span>
+              <button class="qty-btn plus" onclick="changeQty('d5', 1)">+</button>
+            </div>
+          </div>
+          <div class="menu-item" data-id="d6" data-name="Mineral Water (1L)" data-price="25">
+            <div class="menu-item-image">
+              <img src="image/drinks/Mineral Water (1L) - 25.jpg" alt="Mineral Water (1L)" />
+            </div>
+            <div class="menu-item-name">Mineral Water (1L)</div>
+            <div class="menu-item-price">₱25</div>
+            <div class="qty-control">
+              <button class="qty-btn minus" onclick="changeQty('d6', -1)">−</button>
+              <span class="qty-num" id="qty-d6">0</span>
+              <button class="qty-btn plus" onclick="changeQty('d6', 1)">+</button>
+            </div>
+          </div>
+          <div class="menu-item" data-id="d7" data-name="Mineral Water (500ml)" data-price="15">
+            <div class="menu-item-image">
+              <img src="image/drinks/Mineral Water (500ml) - 15.jpg" alt="Mineral Water (500ml)" />
+            </div>
+            <div class="menu-item-name">Mineral Water (500ml)</div>
+            <div class="menu-item-price">₱15</div>
+            <div class="qty-control">
+              <button class="qty-btn minus" onclick="changeQty('d7', -1)">−</button>
+              <span class="qty-num" id="qty-d7">0</span>
+              <button class="qty-btn plus" onclick="changeQty('d7', 1)">+</button>
+            </div>
+          </div>
+          <div class="menu-item" data-id="d8" data-name="Orange Juice" data-price="20">
+            <div class="menu-item-image">
+              <img src="image/drinks/Orange Juice - 20.jpeg" alt="Orange Juice" />
+            </div>
+            <div class="menu-item-name">Orange Juice</div>
+            <div class="menu-item-price">₱20</div>
+            <div class="qty-control">
+              <button class="qty-btn minus" onclick="changeQty('d8', -1)">−</button>
+              <span class="qty-num" id="qty-d8">0</span>
+              <button class="qty-btn plus" onclick="changeQty('d8', 1)">+</button>
+            </div>
+          </div>
+          <div class="menu-item" data-id="d9" data-name="Pineapple Juice" data-price="20">
+            <div class="menu-item-image">
+              <img src="image/drinks/Pineapple Juice - 20.jpg" alt="Pineapple Juice" />
+            </div>
+            <div class="menu-item-name">Pineapple Juice</div>
+            <div class="menu-item-price">₱20</div>
+            <div class="qty-control">
+              <button class="qty-btn minus" onclick="changeQty('d9', -1)">−</button>
+              <span class="qty-num" id="qty-d9">0</span>
+              <button class="qty-btn plus" onclick="changeQty('d9', 1)">+</button>
+            </div>
+          </div>
+        </div>
+        <!-- Snacks Items -->
+        <div class="menu-category" data-category="snacks" style="display:none;">
+          <div class="menu-item" data-id="s1" data-name="Asado Siopao" data-price="30">
+            <div class="menu-item-image">
+              <img src="image/snacks/Asado Siopao - 30.jpeg" alt="Asado Siopao" />
+            </div>
+            <div class="menu-item-name">Asado Siopao</div>
+            <div class="menu-item-price">₱30</div>
+            <div class="qty-control">
+              <button class="qty-btn minus" onclick="changeQty('s1', -1)">−</button>
+              <span class="qty-num" id="qty-s1">0</span>
+              <button class="qty-btn plus" onclick="changeQty('s1', 1)">+</button>
+            </div>
+          </div>
+          <div class="menu-item" data-id="s2" data-name="Banana que" data-price="20">
+            <div class="menu-item-image">
+              <img src="image/snacks/Banana que - 20.jpeg" alt="Banana que" />
+            </div>
+            <div class="menu-item-name">Banana que</div>
+            <div class="menu-item-price">₱20</div>
+            <div class="qty-control">
+              <button class="qty-btn minus" onclick="changeQty('s2', -1)">−</button>
+              <span class="qty-num" id="qty-s2">0</span>
+              <button class="qty-btn plus" onclick="changeQty('s2', 1)">+</button>
+            </div>
+          </div>
+          <div class="menu-item" data-id="s3" data-name="Cheese Burger" data-price="35">
+            <div class="menu-item-image">
+              <img src="image/snacks/Cheese Burger - 35.jpg" alt="Cheese Burger" />
+            </div>
+            <div class="menu-item-name">Cheese Burger</div>
+            <div class="menu-item-price">₱35</div>
+            <div class="qty-control">
+              <button class="qty-btn minus" onclick="changeQty('s3', -1)">−</button>
+              <span class="qty-num" id="qty-s3">0</span>
+              <button class="qty-btn plus" onclick="changeQty('s3', 1)">+</button>
+            </div>
+          </div>
+          <div class="menu-item" data-id="s4" data-name="Chicken Empanada" data-price="35">
+            <div class="menu-item-image">
+              <img src="image/snacks/Chicken Empanada - 35.jpg" alt="Chicken Empanada" />
+            </div>
+            <div class="menu-item-name">Chicken Empanada</div>
+            <div class="menu-item-price">₱35</div>
+            <div class="qty-control">
+              <button class="qty-btn minus" onclick="changeQty('s4', -1)">−</button>
+              <span class="qty-num" id="qty-s4">0</span>
+              <button class="qty-btn plus" onclick="changeQty('s4', 1)">+</button>
+            </div>
+          </div>
+          <div class="menu-item" data-id="s5" data-name="Egg Sandwich" data-price="20">
+            <div class="menu-item-image">
+              <img src="image/snacks/Egg Sandwich - 20.jpeg" alt="Egg Sandwich" />
+            </div>
+            <div class="menu-item-name">Egg Sandwich</div>
+            <div class="menu-item-price">₱20</div>
+            <div class="qty-control">
+              <button class="qty-btn minus" onclick="changeQty('s5', -1)">−</button>
+              <span class="qty-num" id="qty-s5">0</span>
+              <button class="qty-btn plus" onclick="changeQty('s5', 1)">+</button>
+            </div>
+          </div>
+          <div class="menu-item" data-id="s6" data-name="French Fries" data-price="25">
+            <div class="menu-item-image">
+              <img src="image/snacks/French Fries - 25.jpeg" alt="French Fries" />
+            </div>
+            <div class="menu-item-name">French Fries</div>
+            <div class="menu-item-price">₱25</div>
+            <div class="qty-control">
+              <button class="qty-btn minus" onclick="changeQty('s6', -1)">−</button>
+              <span class="qty-num" id="qty-s6">0</span>
+              <button class="qty-btn plus" onclick="changeQty('s6', 1)">+</button>
+            </div>
+          </div>
+          <div class="menu-item" data-id="s7" data-name="Hotdog Sandwich" data-price="25">
+            <div class="menu-item-image">
+              <img src="image/snacks/Hotdog Sandwich - 25.jpeg" alt="Hotdog Sandwich" />
+            </div>
+            <div class="menu-item-name">Hotdog Sandwich</div>
+            <div class="menu-item-price">₱25</div>
+            <div class="qty-control">
+              <button class="qty-btn minus" onclick="changeQty('s7', -1)">−</button>
+              <span class="qty-num" id="qty-s7">0</span>
+              <button class="qty-btn plus" onclick="changeQty('s7', 1)">+</button>
+            </div>
+          </div>
+          <div class="menu-item" data-id="s8" data-name="Kwek-kwek" data-price="20">
+            <div class="menu-item-image">
+              <img src="image/snacks/Kwek-kwek - 20.jpg" alt="Kwek-kwek" />
+            </div>
+            <div class="menu-item-name">Kwek-kwek</div>
+            <div class="menu-item-price">₱20</div>
+            <div class="qty-control">
+              <button class="qty-btn minus" onclick="changeQty('s8', -1)">−</button>
+              <span class="qty-num" id="qty-s8">0</span>
+              <button class="qty-btn plus" onclick="changeQty('s8', 1)">+</button>
+            </div>
+          </div>
+          <div class="menu-item" data-id="s9" data-name="Shanghai (3pcs)" data-price="20">
+            <div class="menu-item-image">
+              <img src="image/snacks/Shanghai - 20 (3pcs).jpg" alt="Shanghai (3pcs)" />
+            </div>
+            <div class="menu-item-name">Shanghai (3pcs)</div>
+            <div class="menu-item-price">₱20</div>
+            <div class="qty-control">
+              <button class="qty-btn minus" onclick="changeQty('s9', -1)">−</button>
+              <span class="qty-num" id="qty-s9">0</span>
+              <button class="qty-btn plus" onclick="changeQty('s9', 1)">+</button>
+            </div>
+          </div>
+          <div class="menu-item" data-id="s10" data-name="Takoyaki" data-price="70">
+            <div class="menu-item-image">
+              <img src="image/snacks/Takoyaki - 70.jpeg" alt="Takoyaki" />
+            </div>
+            <div class="menu-item-name">Takoyaki</div>
+            <div class="menu-item-price">₱70</div>
+            <div class="qty-control">
+              <button class="qty-btn minus" onclick="changeQty('s10', -1)">−</button>
+              <span class="qty-num" id="qty-s10">0</span>
+              <button class="qty-btn plus" onclick="changeQty('s10', 1)">+</button>
+            </div>
+          </div>
+        </div>
+        <!-- Desserts Items -->
+        <div class="menu-category" data-category="desserts" style="display:none;">
+          <div class="menu-item" data-id="de1" data-name="Banana Bread" data-price="25">
+            <div class="menu-item-image">
+              <img src="image/dessert/Banana Bread - 25.jpg" alt="Banana Bread" />
+            </div>
+            <div class="menu-item-name">Banana Bread</div>
+            <div class="menu-item-price">₱25</div>
+            <div class="qty-control">
+              <button class="qty-btn minus" onclick="changeQty('de1', -1)">−</button>
+              <span class="qty-num" id="qty-de1">0</span>
+              <button class="qty-btn plus" onclick="changeQty('de1', 1)">+</button>
+            </div>
+          </div>
+          <div class="menu-item" data-id="de2" data-name="Cereal Bar" data-price="20">
+            <div class="menu-item-image">
+              <img src="image/dessert/Cereal Bar - 20.jpg" alt="Cereal Bar" />
+            </div>
+            <div class="menu-item-name">Cereal Bar</div>
+            <div class="menu-item-price">₱20</div>
+            <div class="qty-control">
+              <button class="qty-btn minus" onclick="changeQty('de2', -1)">−</button>
+              <span class="qty-num" id="qty-de2">0</span>
+              <button class="qty-btn plus" onclick="changeQty('de2', 1)">+</button>
+            </div>
+          </div>
+          <div class="menu-item" data-id="de3" data-name="Churros" data-price="30">
+            <div class="menu-item-image">
+              <img src="image/dessert/Churros - 30.jpg" alt="Churros" />
+            </div>
+            <div class="menu-item-name">Churros</div>
+            <div class="menu-item-price">₱30</div>
+            <div class="qty-control">
+              <button class="qty-btn minus" onclick="changeQty('de3', -1)">−</button>
+              <span class="qty-num" id="qty-de3">0</span>
+              <button class="qty-btn plus" onclick="changeQty('de3', 1)">+</button>
+            </div>
+          </div>
+          <div class="menu-item" data-id="de4" data-name="Cookies" data-price="30">
+            <div class="menu-item-image">
+              <img src="image/dessert/Cookies - 30.jpeg" alt="Cookies" />
+            </div>
+            <div class="menu-item-name">Cookies</div>
+            <div class="menu-item-price">₱30</div>
+            <div class="qty-control">
+              <button class="qty-btn minus" onclick="changeQty('de4', -1)">−</button>
+              <span class="qty-num" id="qty-de4">0</span>
+              <button class="qty-btn plus" onclick="changeQty('de4', 1)">+</button>
+            </div>
+          </div>
+          <div class="menu-item" data-id="de5" data-name="Egg Tart" data-price="25">
+            <div class="menu-item-image">
+              <img src="image/dessert/Egg Tart - 25.jpeg" alt="Egg Tart" />
+            </div>
+            <div class="menu-item-name">Egg Tart</div>
+            <div class="menu-item-price">₱25</div>
+            <div class="qty-control">
+              <button class="qty-btn minus" onclick="changeQty('de5', -1)">−</button>
+              <span class="qty-num" id="qty-de5">0</span>
+              <button class="qty-btn plus" onclick="changeQty('de5', 1)">+</button>
+            </div>
+          </div>
+          <div class="menu-item" data-id="de6" data-name="Graham Bar" data-price="25">
+            <div class="menu-item-image">
+              <img src="image/dessert/Graham Bar - 25.jpeg" alt="Graham Bar" />
+            </div>
+            <div class="menu-item-name">Graham Bar</div>
+            <div class="menu-item-price">₱25</div>
+            <div class="qty-control">
+              <button class="qty-btn minus" onclick="changeQty('de6', -1)">−</button>
+              <span class="qty-num" id="qty-de6">0</span>
+              <button class="qty-btn plus" onclick="changeQty('de6', 1)">+</button>
+            </div>
+          </div>
+          <div class="menu-item" data-id="de7" data-name="Halo - Halo" data-price="50">
+            <div class="menu-item-image">
+              <img src="image/dessert/Halo - Halo - 50.jpg" alt="Halo - Halo" />
+            </div>
+            <div class="menu-item-name">Halo - Halo</div>
+            <div class="menu-item-price">₱50</div>
+            <div class="qty-control">
+              <button class="qty-btn minus" onclick="changeQty('de7', -1)">−</button>
+              <span class="qty-num" id="qty-de7">0</span>
+              <button class="qty-btn plus" onclick="changeQty('de7', 1)">+</button>
+            </div>
+          </div>
+          <div class="menu-item" data-id="de8" data-name="Ice Candy" data-price="10">
+            <div class="menu-item-image">
+              <img src="image/dessert/Ice Candy - 10.jpeg" alt="Ice Candy" />
+            </div>
+            <div class="menu-item-name">Ice Candy</div>
+            <div class="menu-item-price">₱10</div>
+            <div class="qty-control">
+              <button class="qty-btn minus" onclick="changeQty('de8', -1)">−</button>
+              <span class="qty-num" id="qty-de8">0</span>
+              <button class="qty-btn plus" onclick="changeQty('de8', 1)">+</button>
+            </div>
+          </div>
+          <div class="menu-item" data-id="de9" data-name="Mais Con Yelo" data-price="50">
+            <div class="menu-item-image">
+              <img src="image/dessert/Mais Con Yelo - 50.jpeg" alt="Mais Con Yelo" />
+            </div>
+            <div class="menu-item-name">Mais Con Yelo</div>
+            <div class="menu-item-price">₱50</div>
+            <div class="qty-control">
+              <button class="qty-btn minus" onclick="changeQty('de9', -1)">−</button>
+              <span class="qty-num" id="qty-de9">0</span>
+              <button class="qty-btn plus" onclick="changeQty('de9', 1)">+</button>
+            </div>
+          </div>
+          <div class="menu-item" data-id="de10" data-name="Strawberry Cheese Cake" data-price="50">
+            <div class="menu-item-image">
+              <img src="image/dessert/Strawberry Pie - 50.jpeg" alt="Strawberry Cheese Cake" />
+            </div>
+            <div class="menu-item-name">Strawberry Cheese Cake</div>
+            <div class="menu-item-price">₱50</div>
+            <div class="qty-control">
+              <button class="qty-btn minus" onclick="changeQty('de10', -1)">−</button>
+              <span class="qty-num" id="qty-de10">0</span>
+              <button class="qty-btn plus" onclick="changeQty('de10', 1)">+</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="menu-done-bar">
+        <button id="btn-menu-done" class="btn-ghost" style="padding:10px 20px;font-size:14px;" onclick="showScreen('category')">Done</button>
+        <button id="btn-view-cart" class="view-cart-btn" onclick="showScreen('cart')">
+          View Cart
+          <span id="cart-badge" class="cart-badge" style="display:none;">0</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SCREEN: CART                                                 -->
+  <!-- ============================================================ -->
+  <div id="screen-cart" class="screen">
+    <div class="page-header"><h1>View Cart</h1></div>
+    <div id="cart-items" class="content"></div>
+    <div class="cart-total-row">
+      <span>Total:</span>
+      <span id="cart-total-amount">₱0</span>
+    </div>
+    <div class="cart-nav">
+      <button id="btn-cart-back" class="btn-ghost">&lt;&lt; Back</button>
+      <button id="btn-cart-checkout" class="btn-dark" onclick="checkoutProceed()">Check out &gt;&gt;</button>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SCREEN: CHECKOUT                                             -->
+  <!-- ============================================================ -->
+  <div id="screen-checkout" class="screen">
+    <div class="page-header"><h1>Checkout</h1></div>
+    <div class="content">
+      <div id="checkout-items"></div>
+      <hr class="checkout-divider" />
+      <div class="checkout-total">
+        <span>Total:</span>
+        <span id="checkout-total-amount">₱0</span>
+      </div>
+    </div>
+    <div class="cart-nav">
+      <button id="btn-checkout-back" class="btn-ghost">&lt;&lt; Back</button>
+      <button id="btn-checkout-proceed" class="btn-dark" onclick="showScreen('payment')">Proceed</button>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SCREEN: PAYMENT                                              -->
+  <!-- ============================================================ -->
+  <div id="screen-payment" class="screen">
+    <div class="page-header"><h1>Payment</h1></div>
+    <div class="content">
+      <div class="payment-option" data-method="cash" onclick="selectPayment('cash')">
+        <div class="payment-radio" id="radio-cash"></div>
+        <span class="payment-label">Cash</span>
+      </div>
+      <div class="payment-option" data-method="gcash" onclick="selectPayment('gcash')">
+        <div class="payment-radio" id="radio-gcash"></div>
+        <div class="gcash-logo">
+          <span>GCash</span>
+        </div>
+      </div>
+    </div>
+    <div class="cart-nav">
+      <button id="btn-payment-back" class="btn-ghost">&lt;&lt; Back</button>
+      <button id="btn-payment-proceed" class="btn-dark" onclick="paymentProceed()">Proceed</button>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SCREEN: GCASH QR                                             -->
+  <!-- ============================================================ -->
+  <div id="screen-gcash" class="screen">
+    <div class="flex-spacer"></div>
+    <div class="content" style="flex:none;">
+      <div class="gcash-card">
+        <div class="gcash-title">🔵 GCash</div>
+        <div style="color:white;font-weight:700;letter-spacing:2px;text-transform:uppercase;font-size:13px;">Scan to Pay Here</div>
+        <div class="gcash-qr">
+          <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=GCashPayment12345" alt="GCash QR Code" style="width:180px;height:180px;border-radius:8px;" />
+        </div>
+      </div>
+    </div>
+    <div class="flex-spacer"></div>
+    <div class="cart-nav">
+      <button id="btn-gcash-back" class="btn-ghost">&lt;&lt; Back</button>
+      <button id="btn-gcash-next" class="btn-dark" onclick="gcashNext()">Next</button>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SCREEN: ORDER NUMBER                                         -->
+  <!-- ============================================================ -->
+  <div id="screen-order-number" class="screen">
+    <div class="order-number-header"><h1>Order Number</h1></div>
+    <div class="order-number-body">
+      <div class="order-number-card">
+        <svg viewBox="0 0 260 260" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <polygon points="130,12 228,67.5 228,192.5 130,248 32,192.5 32,67.5"
+            fill="none" stroke="#1E3A5F" stroke-width="2.5"/>
+        </svg>
+        <div class="order-number-brand">CLICK BITE</div>
+        <div class="order-number-num" id="order-num-display">000</div>
+      </div>
+      <p style="font-size:12px;color:#aaa;font-style:italic;margin-top:8px;">Cravings Called. We Answered</p>
+    </div>
+    <div style="padding:0 24px 40px;">
+      <button id="btn-order-num-done" class="btn-dark" style="width:100%;" onclick="orderNumberDone()">Done</button>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SCREEN: THANK YOU                                            -->
+  <!-- ============================================================ -->
+  <div id="screen-thankyou" class="screen">
+    <div class="flex-spacer"></div>
+    <div class="thankyou-icon">✅</div>
+    <div class="thankyou-title">Thank you for your purchase!</div>
+    <div class="thankyou-sub" id="thankyou-order-num">Check your order status below.</div>
+    <div class="flex-spacer"></div>
+    <div style="padding:24px;">
+      <button id="btn-thankyou-done" class="btn-primary" onclick="thankyouDone()">View Order Status</button>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SCREEN: ORDER STATUS (customer board)                        -->
+  <!-- ============================================================ -->
+  <div id="screen-order-status" class="screen">
+    <div class="page-header" style="padding-top:52px;"><h1>Order Board</h1></div>
+    <div class="content">
+      <div class="status-table">
+        <div class="status-col">
+          <div class="status-col-header">⏳ Preparing</div>
+          <div id="status-preparing"></div>
+        </div>
+        <div class="status-col">
+          <div class="status-col-header">✅ Ready</div>
+          <div id="status-ready"></div>
+        </div>
+      </div>
+    </div>
+    <div style="padding:12px 24px 32px;">
+      <button id="btn-status-claim" class="btn-dark" style="width:100%;" onclick="claimOrder()">Claim</button>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SCREEN: STAFF ORDERS                                         -->
+  <!-- ============================================================ -->
+  <div id="screen-staff-orders" class="screen">
+    <!-- Top badge + title -->
+    <div class="staff-top">
+      <div class="staff-badge">Canteen Staff</div>
+    </div>
+    <div class="staff-list-title">List Orders</div>
+
+    <!-- Active tab label (Done Orders / To Claim / Ready Orders / Preparing Orders) -->
+    <div id="staff-active-tab-label" class="staff-active-tab-label">Done Orders</div>
+
+    <!-- Orders list -->
+    <div id="staff-order-list" class="staff-order-scroll"></div>
+
+    <!-- Tab buttons at bottom -->
+    <div class="staff-tab-footer">
+      <button class="staff-tab-btn active" data-tab="done" onclick="switchStaffTab('done')">Done Orders</button>
+      <button class="staff-tab-btn" data-tab="claim" onclick="switchStaffTab('claim')">To Claim</button>
+      <button class="staff-tab-btn" data-tab="ready" onclick="switchStaffTab('ready')">Ready Orders</button>
+      <button class="staff-tab-btn" data-tab="preparing" onclick="switchStaffTab('preparing')">Preparing Orders</button>
+    </div>
+
+    <div class="staff-bottom-bar">
+      <button id="btn-staff-audit" class="btn-ghost" style="font-size:13px;padding:10px 20px;">Audit Logs</button>
+      <button id="btn-staff-board" class="btn-ghost" style="font-size:13px;padding:10px 20px;">Order Board</button>
+      <button id="btn-staff-done" class="btn-dark">Done</button>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SCREEN: ORDER BOARD (PREPARING / READY columns)             -->
+  <!-- ============================================================ -->
+  <div id="screen-order-board" class="screen">
+    <div class="board-header">
+      <div class="board-col-head">PREPARING</div>
+      <div class="board-col-head">READY</div>
+    </div>
+    <div class="board-body">
+      <div class="board-col" id="board-preparing"></div>
+      <div class="board-col" id="board-ready"></div>
+    </div>
+    <div class="staff-bottom-bar">
+      <button id="btn-board-back" class="btn-ghost" style="font-size:13px;padding:10px 20px;">&lt;&lt; Back</button>
+      <button id="btn-board-claim" class="btn-dark" onclick="boardClaim()">Claim</button>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SCREEN: AUDIT LOGS — ORDERS PAGE                            -->
+  <!-- ============================================================ -->
+  <div id="screen-audit-orders" class="screen">
+    <div class="staff-top">
+      <div class="staff-badge">Canteen Staff</div>
+    </div>
+    <div class="staff-list-title" style="background:var(--yellow);">Audit Logs</div>
+    <div class="audit-section-label" style="margin:12px 16px 8px;">Orders:</div>
+    <div id="audit-orders" class="audit-grid-scroll"></div>
+    <div class="staff-bottom-bar">
+      <button id="btn-audit-orders-next" class="btn-dark" style="margin-left:auto;" onclick="showScreen('audit-payment')">Next</button>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SCREEN: AUDIT LOGS — PAYMENT PAGE                           -->
+  <!-- ============================================================ -->
+  <div id="screen-audit-payment" class="screen">
+    <div class="staff-top">
+      <div class="staff-badge">Canteen Staff</div>
+    </div>
+    <div class="staff-list-title" style="background:var(--yellow);">Audit Logs</div>
+    <div class="audit-section-label" style="margin:12px 16px 8px;">Payment:</div>
+    <div id="audit-payments" class="audit-payment-scroll"></div>
+    <div class="staff-bottom-bar">
+      <button id="btn-audit-payment-done" class="btn-dark" style="margin-left:auto;">Done</button>
+    </div>
+  </div>
+
+</div><!-- #app -->
+
+
+<script src="app.js"></script>
+</body>
+</html>
